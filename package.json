@@ -1,16 +1,16 @@
 {
-    "name": "com.macacagames.viewsystem",
+    "name": "com.casualhit.viewsystem",
     "version": "1.1.1",
-    "displayName": "Macaca View System",
-    "description": "ViewSystem is a element based UI management system based on Unity GUI. It is developed and used by Macaca Games. UI management in Unity3D is always a hard work, the goal of ViewSystem is to make UI management more easier and flexable.",
+    "displayName": "Casual Hit View System",
+    "description": "ViewSystem is a element based UI management system based on Unity GUI. It was developed and used by Macaca Games and the current version is a personalised variant made by Casual Hit. UI management in Unity3D is always a hard work, the goal of ViewSystem is to make UI management more easier and flexable.",
     "unity": "2019.4",
     "dependencies": {
-        "com.macacagames.utility": "1.2.37"
+        "com.macacagames.utility": "1.0.0"
     },
     "keywords": [],
     "author": {
-        "name": "Macaca Games",
-        "email": "contact@macaca.games",
-        "url": "https://macaca.games"
+        "name": "",
+        "email": "contact@casualhit.net",
+        "url": "https://casualhit.net"
     }
 }
