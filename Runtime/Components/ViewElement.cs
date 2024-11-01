@@ -838,7 +838,9 @@ namespace MacacaGames.ViewSystem
                 }
             }
             leaveCoroutine = null;
-            OnLeaveAnimationFinish();
+            
+            if(transition != TransitionType.Custom)
+                OnLeaveAnimationFinish();
             // });
         }
 
