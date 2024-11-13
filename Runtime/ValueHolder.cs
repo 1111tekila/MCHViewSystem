@@ -1,4 +1,7 @@
-public class ValueHolder : MonoBehaivour
+namespace MacacaGames.ViewSystem
 {
-    public float value = 0;
+	public class ValueHolder : MonoBehaivour
+	{
+		public float value = 0;
+	}	
 }
