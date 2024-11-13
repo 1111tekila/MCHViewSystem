@@ -822,7 +822,7 @@ namespace MacacaGames.ViewSystem
             }
             else if (transition == TransitionType.Custom)
             {
-                OnLeaveHandle.Invoke(OnLeaveAnimationFinish);
+              //  OnLeaveHandle.Invoke(OnLeaveAnimationFinish);
             }
             else
             {
