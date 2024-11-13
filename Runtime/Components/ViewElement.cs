@@ -273,6 +273,22 @@ namespace MacacaGames.ViewSystem
             }
         }
 
+        private _valueHolder;
+        
+        public ValueHolder valueHolder
+        {
+            get
+            {
+                if (_valueHolder) return _valueHolder;
+                _valueHolder = GetComponent<ValueHolder>();
+                if (_valueHolder) return _valueHolder;
+                _valueHolder = GetComponentInChildren<ValueHolder>();
+                return _valueHolder;
+            }
+        }
+        
+        
+
         void Reset()
         {
             //如果還是沒有抓到 Animator 那就設定成一般開關模式
@@ -838,10 +854,7 @@ namespace MacacaGames.ViewSystem
                 }
             }
             leaveCoroutine = null;
-            
-            if(transition != TransitionType.Custom)
-                OnLeaveAnimationFinish();
-            // });
+            OnLeaveAnimationFinish();
         }
 
         public void OnChangedPage()
@@ -956,6 +969,11 @@ namespace MacacaGames.ViewSystem
             {
                 result = Mathf.Max(result, viewElementAnimation.GetOutDuration());
             }
+            else if (transition == ViewElement.TransitionType.Custom)
+            {
+                result = Mathf.Max(result, valueHolder.value);
+            }
+            
             return Mathf.Clamp(result, 0, 2);
         }
         public virtual float GetInDuration()
