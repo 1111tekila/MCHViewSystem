@@ -854,7 +854,11 @@ namespace MacacaGames.ViewSystem
                 }
             }
             leaveCoroutine = null;
-            OnLeaveAnimationFinish();
+
+            if (transition != TransitionType.Custom)
+                OnLeaveAnimationFinish();
+            else
+                OnLeaveHandle.Invoke(OnLeaveAnimationFinish);
         }
 
         public void OnChangedPage()
