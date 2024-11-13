@@ -273,7 +273,7 @@ namespace MacacaGames.ViewSystem
             }
         }
 
-        private _valueHolder;
+        private ValueHolder _valueHolder;
         
         public ValueHolder valueHolder
         {
