@@ -7,10 +7,16 @@ public class ViewSystemLog
     const string viewsystemloghead = "<color=darkblue><b>[View System]</b></color> ";
     public static void Log(object msg, Object context)
     {
+#if !UNITY_EDITOR
+    return;
+#endif
         Debug.Log(viewsystemloghead + msg, context);
     }
     public static void LogWarning(object msg, Object context)
     {
+#if !UNITY_EDITOR
+    return;
+#endif
         Debug.LogWarning(viewsystemloghead + msg, context);
     }
     public static void LogError(object msg, Object context)
@@ -19,10 +25,16 @@ public class ViewSystemLog
     }
     public static void Log(object msg)
     {
+#if !UNITY_EDITOR
+    return;
+#endif
         Log(msg, null);
     }
     public static void LogWarning(object msg)
     {
+#if !UNITY_EDITOR
+    return;
+#endif
         LogWarning(msg, null);
     }
     public static void LogError(object msg)

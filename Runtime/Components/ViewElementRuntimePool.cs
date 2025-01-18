@@ -96,6 +96,7 @@ namespace MacacaGames.ViewSystem
                 ViewSystemLog.LogWarning("The ViewElement trying to Prewarm is not an unique ViewElement");
                 return null;
             }
+            
             var i = source.GetInstanceID();
             if (!uniqueVeDicts.ContainsKey(source.GetInstanceID()))
             {
@@ -108,7 +109,6 @@ namespace MacacaGames.ViewSystem
             }
             else
             {
-                ViewSystemLog.LogWarning("ViewElement " + source.name + " has been prewarmed");
                 return uniqueVeDicts[i];
             }
         }
