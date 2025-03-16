@@ -389,8 +389,6 @@ namespace MacacaGames.ViewSystem
                     {
                         // Get the current value
                         object currentValue = info.GetValue(inObj);
-    
-                        Debug.Log(ViewController.Instance.currentViewPage.transitionTime);
                         
                         // Start tweening
                         StartTweening(inObj, info, currentValue, newValue, ViewController.Instance.currentViewPage.transitionTime);
@@ -479,6 +477,10 @@ namespace MacacaGames.ViewSystem
             else if (start is Color && end is Color)
             {
                 return Color.Lerp((Color)start, (Color)end, progress);
+            }
+            else if (start is Vector2 && end is Vector2)
+            {
+                return Vector2.Lerp((Vector2)start, (Vector2)end, progress);
             }
             // Add more type handling as needed
 
