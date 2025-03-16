@@ -251,6 +251,7 @@ namespace MacacaGames.ViewSystem
         internal void ApplyOverride(ViewElementPropertyOverrideData overrideData)
         {
             Transform targetTansform = GetTransform(overrideData.targetTransformPath);
+         
             if (targetTansform == null)
             {
                 ViewSystemLog.LogError($"Target GameObject cannot be found [{transform.name} / {overrideData.targetTransformPath}]");
@@ -265,6 +266,7 @@ namespace MacacaGames.ViewSystem
             }
 
             var idForProperty = result.Id + "#" + overrideData.targetPropertyName;
+          
             if (!prefabDefaultFields.ContainsKey(idForProperty))
             {
                 prefabDefaultFields.Add(idForProperty, new PrefabDefaultField(GetPropertyValue(result.Component, overrideData.targetPropertyName), result.Id, overrideData.targetPropertyName));
@@ -273,16 +275,19 @@ namespace MacacaGames.ViewSystem
             currentModifiedField.Add(idForProperty);
             SetPropertyValue(result.Component, overrideData.targetPropertyName, overrideData.Value.GetValue());
             Graphic targetGraphic = null;
+           
             if (result.Component.GetType().IsSubclassOf(typeof(Graphic)))
             {
                 targetGraphic = result.Component as Graphic;
                 // requireSetDirtyTarget.Add();
             }
+            
             if (result.Component.GetType().IsSubclassOf(typeof(BaseMeshEffect)))
             {
                 targetGraphic = (result.Component as Component).GetComponent<Graphic>();
                 // requireSetDirtyTarget.Add((result.Component as Component).GetComponent<Graphic>());
             }
+          
             if (targetGraphic != null)
             {
                 targetGraphic.SetAllDirty();
@@ -353,6 +358,16 @@ namespace MacacaGames.ViewSystem
                 // Since we canoot detect null value of an unassign object on object field, so use try-catch to fallback to set null value
                 try
                 {
+                    if (inObj is Vector3)
+                    {
+                        Debug.Log("Setting Vector3");
+                    }
+                    
+                    if (inObj is Vector2)
+                    {
+                        Debug.Log("Setting Vector2");
+                    }
+                    
                     fieldInfo.SetValue(inObj, newValue);
                 }
                 catch
