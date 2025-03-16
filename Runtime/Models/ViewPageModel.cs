@@ -32,6 +32,10 @@ namespace MacacaGames.ViewSystem
         }
         public RectTransform runtimePageRoot;
         public float customPageTransitionWaitTime = 0.5f;
+      
+        public bool tweenOverrides = false;
+        public float transitionTime = 0.5f;
+       
         public string viewState = "";
         public ViewPageType viewPageType = ViewPageType.FullPage;
         public ViewPageTransitionTimingType viewPageTransitionTimingType = ViewPageTransitionTimingType.WithPervious;

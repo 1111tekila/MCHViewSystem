@@ -73,6 +73,7 @@ namespace MacacaGames.ViewSystem
         #region EventOverride
         [SerializeField]
         ViewElementEventData[] currentEventDatas;
+        
         class EventRuntimeDatas
         {
             public EventRuntimeDatas(UnityEventBase unityEvent, Component selectable)
@@ -252,6 +253,7 @@ namespace MacacaGames.ViewSystem
         {
             Transform targetTansform = GetTransform(overrideData.targetTransformPath);
          
+            
             if (targetTansform == null)
             {
                 ViewSystemLog.LogError($"Target GameObject cannot be found [{transform.name} / {overrideData.targetTransformPath}]");
@@ -297,6 +299,8 @@ namespace MacacaGames.ViewSystem
             try
             {
                 OnApplyOverride?.Invoke();
+
+
                 if (typeof(IViewElementOverrideListener).IsAssignableFrom(result.Component.GetType()))
                 {
                     (result.Component as IViewElementOverrideListener).OnApplyOverride();
@@ -358,16 +362,7 @@ namespace MacacaGames.ViewSystem
                 // Since we canoot detect null value of an unassign object on object field, so use try-catch to fallback to set null value
                 try
                 {
-                    if (inObj is Vector3)
-                    {
-                        Debug.Log("Setting Vector3");
-                    }
-                    
-                    if (inObj is Vector2)
-                    {
-                        Debug.Log("Setting Vector2");
-                    }
-                    
+
                     fieldInfo.SetValue(inObj, newValue);
                 }
                 catch
@@ -386,16 +381,115 @@ namespace MacacaGames.ViewSystem
             if (info != null)
             {
                 // Since we canoot detect null value of an unassign object on object field, so use try-catch to fallback to set null value
-
+                
+                
                 try
                 {
-                    info.SetValue(inObj, newValue);
+                    try
+                    {
+                        // Get the current value
+                        object currentValue = info.GetValue(inObj);
+    
+                        Debug.Log(ViewController.Instance.currentViewPage.transitionTime);
+                        
+                        // Start tweening
+                        StartTweening(inObj, info, currentValue, newValue, ViewController.Instance.currentViewPage.transitionTime);
+                    }
+                    catch
+                    {
+                        info.SetValue(inObj, newValue);
+                    }
                 }
                 catch
                 {
                     info.SetValue(inObj, null);
                 }
             }
+        }
+        
+        // Tweening method
+        private void StartTweening(object targetObject, PropertyInfo property, object startValue, object endValue,
+            float duration)
+        {
+            // Store the start time
+            float startTime = Time.time;
+
+            // Start a coroutine for animation
+            StartCoroutine(TweenProperty(targetObject, property, startValue, endValue, startTime, duration));
+        }
+
+        private IEnumerator TweenProperty(object targetObject, PropertyInfo property, object startValue,
+            object endValue,
+            float startTime, float duration)
+        {
+            // Continue until the duration is complete
+            while (Time.time - startTime < duration)
+            {
+                // Calculate the progress (0 to 1)
+                float progress = (Time.time - startTime) / duration;
+
+                // Apply easing if desired
+                progress = EaseInOutQuad(progress);
+
+                // Interpolate the value based on the type
+                object currentValue = InterpolateValue(startValue, endValue, progress);
+
+                try
+                {
+                    // Set the interpolated value
+                    property.SetValue(targetObject, currentValue);
+                }
+                catch
+                {
+                    // Handle error
+                    Debug.LogError($"Cannot tween property {property.Name}");
+                    yield break;
+                }
+
+                yield return null; // Wait for next frame
+            }
+
+            // Ensure the final value is set
+            try
+            {
+                property.SetValue(targetObject, endValue);
+            }
+            catch
+            {
+                property.SetValue(targetObject, null);
+            }
+        }
+
+        // Interpolate between values based on type
+        private object InterpolateValue(object start, object end, float progress)
+        {
+            // Handle different types
+            if (start is float && end is float)
+            {
+                return Mathf.Lerp((float)start, (float)end, progress);
+            }
+            else if (start is int && end is int)
+            {
+                return Mathf.RoundToInt(Mathf.Lerp((int)start, (int)end, progress));
+            }
+            else if (start is Vector3 && end is Vector3)
+            {
+                return Vector3.Lerp((Vector3)start, (Vector3)end, progress);
+            }
+            else if (start is Color && end is Color)
+            {
+                return Color.Lerp((Color)start, (Color)end, progress);
+            }
+            // Add more type handling as needed
+
+            // Default: just return the end value
+            return end;
+        }
+
+        // Easing function example
+        private float EaseInOutQuad(float t)
+        {
+            return t < 0.5f ? 2f * t * t : 1f - Mathf.Pow(-2f * t + 2f, 2f) / 2f;
         }
 
         private object GetPropertyValue(object inObj, string fieldName)

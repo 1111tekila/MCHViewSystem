@@ -1308,6 +1308,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             {
                                 vp.viewPageTransitionTimingType = (ViewPage.ViewPageTransitionTimingType)EditorGUILayout.EnumPopup("ViewPageTransitionTimingType", vp.viewPageTransitionTimingType);
                             }
+                        
                             using (var disable = new EditorGUI.DisabledGroupScope(vp.viewPageTransitionTimingType != ViewPage.ViewPageTransitionTimingType.Custom))
                             {
                                 vp.customPageTransitionWaitTime = EditorGUILayout.FloatField("CustomPageTransitionWaitTime", vp.customPageTransitionWaitTime);
@@ -1317,6 +1318,18 @@ namespace MacacaGames.ViewSystem.VisualEditor
                             {
                                 EditorGUILayout.IntField("TargetFrameRate", -1);
                             }
+
+                            vp.tweenOverrides = EditorGUILayout.Toggle("Tween Overrides", vp.tweenOverrides);
+
+                            if (vp.tweenOverrides)
+                            {
+                                vp.transitionTime = EditorGUILayout.FloatField("Transition Time", vp.transitionTime);   
+                            }
+                            else
+                            {
+                                vp.transitionTime = 0;
+                            }
+
                             vp.IsNavigation = EditorGUILayout.Toggle("Use Navigation", vp.IsNavigation);
                         }
                     }
