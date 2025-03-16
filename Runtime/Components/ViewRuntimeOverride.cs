@@ -389,9 +389,17 @@ namespace MacacaGames.ViewSystem
                     {
                         // Get the current value
                         object currentValue = info.GetValue(inObj);
+
+                        if (gameObject.activeInHierarchy)
+                        {
+                            // Start tweening
+                            StartTweening(inObj, info, currentValue, newValue, ViewController.Instance.currentViewPage.transitionTime);
+                        }
+                        else
+                        {
+                            info.SetValue(inObj, newValue);
+                        }
                         
-                        // Start tweening
-                        StartTweening(inObj, info, currentValue, newValue, ViewController.Instance.currentViewPage.transitionTime);
                     }
                     catch
                     {
