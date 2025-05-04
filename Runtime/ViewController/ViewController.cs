@@ -49,9 +49,7 @@ namespace MacacaGames.ViewSystem
             {
                 return;
             }
-            
-            Debug.Log(gameObject.name);
-            
+                        
             //Create ViewElementPool
             if (gameObject.name != viewSystemSaveData.globalSetting.ViewControllerObjectPath)
             {
