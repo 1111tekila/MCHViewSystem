@@ -989,7 +989,7 @@ namespace MacacaGames.ViewSystem.VisualEditor
 
         internal static IEnumerable<Type> GetAllTypeWithMethodHasViewSystemEventAttribute()
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(m => m.FullName.Contains("Assembly-CSharp"));
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(m => m.FullName.Contains("Assembly-CSharp") || m.FullName.Contains("RopeManCoreAssembly"));
 
             return assemblies
                     .SelectMany(s => s.GetTypes())
